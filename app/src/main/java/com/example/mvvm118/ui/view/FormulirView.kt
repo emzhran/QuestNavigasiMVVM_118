@@ -31,8 +31,9 @@ fun FormulirView(
     var gender by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var nim by remember { mutableStateOf("") }
+    var alamat by remember { mutableStateOf("") }
 
-    val listData : MutableList<String> = mutableListOf(nama, gender, email, nim)
+    val listData : MutableList<String> = mutableListOf(nama, gender, email, nim, alamat)
 
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -82,6 +83,17 @@ fun FormulirView(
             },
             modifier = Modifier.fillMaxWidth().padding(5.dp),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        )
+        TextField(
+            value = alamat,
+            onValueChange = { alamat = it },
+            label = {
+                Text(text = "Alamat")
+            },
+            placeholder = {
+                Text(text = "Isi Alamat Anda")
+            },
+            modifier = Modifier.fillMaxWidth().padding(5.dp)
         )
         Button(
             modifier = Modifier.fillMaxWidth(),
