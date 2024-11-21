@@ -1,6 +1,8 @@
 package com.example.mvvm118
 
 import TampilDataView
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -26,30 +28,33 @@ fun NavigationControl(
     viewModel: SiswaViewModel = viewModel(),
     navHost: NavHostController = rememberNavController()
 ){
-    val uiState by viewModel.statusUI.collectAsState()
+    Scaffold {
+        isipadding ->
+        val uiState by viewModel.statusUI.collectAsState()
 
-    NavHost(
-        navController = navHost, startDestination = Halaman.FORMULIR.name
-    ){
-        composable(
-            route = Halaman.FORMULIR.name
+        NavHost(modifier = Modifier.padding(isipadding),
+            navController = navHost, startDestination = Halaman.FORMULIR.name
         ){
-            val konteks = LocalContext.current
-            FormulirView(
-                listJK = jenisK.map{id ->
-                    konteks.getString(id)
-                },
-                onSubmitClicked = {
-                    viewModel.saveDataSiswa(it)
-                    navHost.navigate(Halaman.TAMPILDATA.name)
-                }
-            )
-        }
+            composable(
+                route = Halaman.FORMULIR.name
+            ){
+                val konteks = LocalContext.current
+                FormulirView(
+                    listJK = jenisK.map{isi ->
+                        konteks.resources.getString(isi)
+                    },
+                    onSubmitClicked = {
+                        viewModel.saveDataSiswa(it)
+                        navHost.navigate(Halaman.TAMPILDATA.name)
+                    }
+                )
+            }
 
-        composable(route = Halaman.TAMPILDATA.name) {
-            TampilDataView(uiState = uiState, onBackButton = {
-                navHost.popBackStack()
-            })
+            composable(route = Halaman.TAMPILDATA.name) {
+                TampilDataView(uiState = uiState, onBackButton = {
+                    navHost.popBackStack()
+                })
+            }
         }
     }
 }
